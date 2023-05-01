@@ -1,34 +1,44 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<RenovationExpense> expenses = new ArrayList<>();
-        boolean done = false;
 
-        while (!done) {
-            System.out.println("Enter the type of expense (or 'done' to finish):");
-            String type = scanner.nextLine();
+        // Create HashMap to store investment details
+        HashMap<String, InvestmentOpportunity> investmentOpportunities = new HashMap<String, InvestmentOpportunity>();
 
-            if (type.equalsIgnoreCase("done")) {
-                done = true;
+        // Loop to input investment details
+        while (true) {
+            System.out.print("Enter address (or 'exit' to quit): ");
+            String inputAddress = scanner.nextLine();
+
+            if (inputAddress.equals("exit")) {
+                break;
+            }
+
+            InvestmentOpportunity investmentOpportunity = investmentOpportunities.get(inputAddress);
+
+            if (investmentOpportunity != null) {
+                // Investment opportunity already exists, update details
+                System.out.println("Investment opportunity already exists, updating details...");
+                investmentOpportunity.updateDetails(scanner);
+
+                System.out.println("Investment opportunity details updated successfully!");
             } else {
-                System.out.println("Enter the amount spent:");
-                double amount = scanner.nextDouble();
-                scanner.nextLine();
+                // Investment opportunity does not exist, add details
+                System.out.println("Investment opportunity does not exist, adding details...");
+                InvestmentOpportunity newInvestmentOpportunity = new InvestmentOpportunity(inputAddress, scanner);
+                investmentOpportunities.put(inputAddress, newInvestmentOpportunity);
 
-                System.out.println("Enter the date of the expense (in mm/dd/yyyy format):");
-                String date = scanner.nextLine();
-
-                RenovationExpense expense = new RenovationExpense(type, amount, date);
-                expenses.add(expense);
+                System.out.println("Investment opportunity details added successfully!");
             }
         }
 
-        System.out.println("Here are the renovation expenses:");
-        for (RenovationExpense expense : expenses) {
-            System.out.println(expense.getType() + " - $" + expense.getAmount() + " - " + expense.getDate());
+        // Loop to output projected total return and renovation expenses for each investment opportunity
+        for (InvestmentOpportunity investmentOpportunity : investmentOpportunities.values()) {
+            investmentOpportunity.calculateAndOutputProjectedTotalReturn();
+            investmentOpportunity.calculateAndOutputRenovationExpenses();
         }
     }
 

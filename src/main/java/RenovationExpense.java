@@ -1,26 +1,22 @@
 public class RenovationExpense {
-
-    private String type;
+    private String description;
     private double amount;
-    private String date;
 
-    public RenovationExpense(String type, double amount, String date) {
-        this.type = type;
+    public RenovationExpense(String description, double amount) {
+        this.description = description;
         this.amount = amount;
-        this.date = date;
     }
 
-    public String getType() {
-        return type;
+    public String getDescription() {
+        return this.description;
     }
 
     public double getAmount() {
-        return amount;
+        return this.amount;
     }
 
-    public String getDate() {
-        return date;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
-
 
 }
